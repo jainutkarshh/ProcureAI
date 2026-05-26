@@ -88,7 +88,7 @@ def init_db():
         conn.commit()
     finally:
         conn.close()
-    logger.info(f"✓ Database initialized at {Path(DB_PATH).resolve()}")
+    logger.info(f"[OK] Database initialized at {Path(DB_PATH).resolve()}")
 
 # Configure Gemini API (FREE TIER)
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")  # Get from https://aistudio.google.com/app/apikeys
@@ -114,9 +114,9 @@ init_db()
 # Load pre-trained XGBoost model (no retraining needed)
 try:
     xgb_model = joblib.load('xgboost_delay_model.pkl')
-    print("✓ XGBoost model loaded")
+    print("[OK] XGBoost model loaded")
 except FileNotFoundError:
-    print("⚠ XGBoost model not found - will create dummy model for demo")
+    print("[WARN] XGBoost model not found - will create dummy model for demo")
     xgb_model = None
 
 # ====================== PYDANTIC MODELS ======================
@@ -221,7 +221,7 @@ def check_and_retrain():
     logger.info(f"DB has {total_rows} rows, {new_rows} new since last train")
 
     if new_rows >= 50:
-        logger.info("🔄 Triggering automatic model retraining...")
+        logger.info("[SYNC] Triggering automatic model retraining...")
         retrain_model()
     else:
         logger.info(f"Retraining skipped — need {50 - new_rows} more rows")
@@ -316,7 +316,7 @@ def retrain_model():
     finally:
         conn.close()
 
-    logger.info(f"✓ Model retrained on {len(rows)} rows | accuracy: {accuracy:.2%}")
+    logger.info(f"[OK] Model retrained on {len(rows)} rows | accuracy: {accuracy:.2%}")
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):

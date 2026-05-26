@@ -104,3 +104,8 @@ uploads/
 temp/
 tmp/
 *.csv.bak
+
+# AI Agent / Documentation logs
+CLAUDE.md
+AGENTS.md
+*.cursorrules
