@@ -1,387 +1,163 @@
-# 🚀 PR-to-PO Approval Delay Analysis System
+# 🚀 ProcureAI: PR-to-PO Approval Delay Analysis System
 
-**Interactive Dashboard + Gemini AI + XGBoost ML**
+**Interactive Next.js Dashboard + FastAPI + Gemini AI + XGBoost ML**
 
-For Orange Prompathon'26 — Problem: PR-to-PO Cycle Approval Delay Analysis
-
----
-
-## 📋 What You Get
-
-A **fully functional web application** that:
-
-✅ **Analyzes approval bottlenecks** — Upload CSV of PR data
-✅ **AI-powered insights** — Gemini API finds root causes  
-✅ **Predicts delays** — XGBoost scores new PRs (will it exceed SLA?)
-✅ **Interactive dashboard** — Beautiful React UI with real-time updates
-✅ **Asks questions** — Chat with Gemini about approval delays
-
-All working in 30 minutes with free APIs.
+![Hero Screenshot](slot_for_hero_screenshot.png)
+*(Replace `slot_for_hero_screenshot.png` with a high-quality screenshot of the main dashboard)*
 
 ---
 
-## 🏗️ Architecture
+## 🔗 Live Deployment
 
-```
-┌────────────────────────────────────────────────────────┐
-│                  REACT DASHBOARD                       │
-│  ┌──────────────────────────────────────────────────┐  │
-│  │ Upload | Insights | Predict | Chat with AI       │  │
-│  │ Metrics | Heatmap | Risk Gauge | Explanations    │  │
-│  └──────────────────────────────────────────────────┘  │
-└────────────────────────────────────────────────────────┘
-              ↓ HTTP (REST API) ↓
-┌────────────────────────────────────────────────────────┐
-│              FASTAPI BACKEND (Python)                  │
-│  ┌──────────────────────────────────────────────────┐  │
-│  │ /analyze     → Parse CSV + calculate metrics     │  │
-│  │ /predict     → XGBoost score + Gemini explain    │  │
-│  │ /explain     → Chat endpoint                     │  │
-│  │ /health      → System status                     │  │
-│  └──────────────────────────────────────────────────┘  │
-└────────────────────────────────────────────────────────┘
-         ↓ (API calls) ↓              ↓ (loads) ↓
-    ┌─────────────────────────┐  ┌──────────────┐
-    │  Gemini API (FREE)      │  │  XGBoost ML  │
-    │  • Bottleneck analysis  │  │  • Classify  │
-    │  • Root cause finding   │  │    delays    │
-    │  • Recommendations      │  │  • Predict   │
-    │  • Free tier: 60 req/min│  │    cycle time│
-    └─────────────────────────┘  └──────────────┘
+🌐 **Live Demo Frontend:** [Insert Vercel Link Here] *(e.g., https://pr-to-po-dashboard.vercel.app)*
+⚙️ **Live API Backend:** [Insert Render/Railway Link Here] *(e.g., https://procure-api.onrender.com)*
+
+---
+
+## 📋 Project Overview
+
+ProcureAI is a **fully functional, production-ready web application** designed to tackle supply chain and procurement inefficiencies—specifically analyzing and predicting delays in the Purchase Request (PR) to Purchase Order (PO) approval cycle.
+
+This system combines traditional Machine Learning (XGBoost) with Generative AI (Google Gemini) to not only predict *when* a delay will happen, but to explain *why* it's happening and offer actionable recommendations to solve it instantly.
+
+### Key Capabilities:
+✅ **Analyzes approval bottlenecks** — Upload a CSV of PR data to get instant insights.
+✅ **AI-powered insights** — Gemini API automatically finds root causes of historical delays.
+✅ **Predicts future delays** — XGBoost scores new PRs (0-100% risk) based on historical patterns.
+✅ **Interactive dashboard** — Beautiful Next.js & React UI with real-time data visualization.
+✅ **AI Chat Assistant** — Chat directly with Gemini about your specific procurement data.
+
+---
+
+## 🏗️ System Architecture
+
+The application is built on a decoupled, modern architecture to ensure scalability and speed.
+
+```mermaid
+graph TD
+    A[Next.js React Dashboard] -->|REST API Calls| B[Python FastAPI Backend]
+    B -->|Generative Text & Explanations| C[Google Gemini API]
+    B -->|Delay Probability Scoring| D[XGBoost ML Model]
+    B -->|Read/Write History| E[(SQLite Database)]
 ```
 
+### 1. Frontend (Next.js & Tailwind CSS)
+The frontend is a sleek, modern dashboard built with Next.js and React. It uses Tailwind CSS for responsive, glassmorphic styling and Framer Motion for smooth micro-animations. It communicates with the backend exclusively via REST APIs.
+
+![Frontend Dashboard Screenshot](slot_for_frontend_screenshot.png)
+*(Replace `slot_for_frontend_screenshot.png` with a screenshot of the Insights tab)*
+
+### 2. Backend (Python FastAPI)
+The backend is a high-performance Python server built with FastAPI. It handles CSV parsing with Pandas, manages the SQLite database, and acts as the orchestrator between the Machine Learning model and the Generative AI model.
+
+### 3. AI & Machine Learning Layer
+- **XGBoost:** A pre-trained Gradient Boosting model evaluates structured data (amounts, categories, vendor types) to calculate the exact probability of a PR breaching its SLA.
+- **Google Gemini API:** Analyzes the structured output and unstructured data (like descriptions) to provide human-readable explanations and strategic recommendations.
+
 ---
 
-## ⚡ Quick Start (5 minutes)
+## ⚡ Features in Detail
 
-### 1. Get Free Gemini API Key (30 seconds)
-- Go to: https://aistudio.google.com/app/apikeys
-- Click "Create API Key"
-- Copy key (no credit card needed!)
+### 1. 📊 Bottleneck Analysis & CSV Upload
+Users can upload historical PR data in CSV format. The backend parses this data using Pandas, calculates SLA breach rates and average cycle times, and passes the aggregate data to Gemini. Gemini returns a detailed root-cause analysis highlighting the exact reasons for systemic delays.
 
-### 2. Setup Backend
+![CSV Upload Screenshot](slot_for_upload_screenshot.png)
+*(Replace `slot_for_upload_screenshot.png` with a screenshot of the CSV upload and Analysis view)*
+
+### 2. 🔮 AI Delay Prediction
+Enter details for a brand new Purchase Request. The XGBoost model calculates the risk score (e.g., 85% chance of delay), and Gemini provides a 2-sentence explanation of *why* this specific PR is risky (e.g., "High-value CAPEX requests on Fridays typically delay"). The system then recommends a routing action (Auto-Approve, Reassign, or Escalate).
+
+![Prediction Form Screenshot](slot_for_prediction_screenshot.png)
+*(Replace `slot_for_prediction_screenshot.png` with a screenshot of the Prediction Form)*
+
+### 3. 💬 Contextual AI Chat
+A built-in chat interface allows users to ask free-form questions about their procurement process. The AI is primed with the context of the uploaded data, allowing it to answer specific questions like *"How can we reduce cycle time by 50%?"* or *"Which approver is causing the most delays?"*
+
+![AI Chat Screenshot](slot_for_chat_screenshot.png)
+*(Replace `slot_for_chat_screenshot.png` with a screenshot of the AI Chat interface)*
+
+---
+
+## 🚀 Local Setup & Installation
+
+Follow these steps to run the complete stack on your local machine.
+
+### Prerequisites
+- Node.js (v18+)
+- Python (3.9+)
+- A Free Google Gemini API Key: [Get it here](https://aistudio.google.com/app/apikeys)
+
+### 1. Backend Setup (FastAPI)
 ```bash
-# Create folder & environment
-mkdir pr-to-po && cd pr-to-po
+# Clone the repository
+git clone https://github.com/yourusername/ProcureAI.git
+cd ProcureAI
 
+# Create and activate virtual environment
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Create .env file
-echo "GEMINI_API_KEY=your_key_here" > .env
+# Add your Gemini API Key
+echo "GEMINI_API_KEY=your_gemini_api_key_here" > .env
 
-# Run backend
-python backend.py
+# Run the backend server
+uvicorn backend:app --host 0.0.0.0 --port 8000 --reload
 ```
-✅ Backend ready at: http://localhost:8000
+✅ The backend will be running at: `http://localhost:8000`
 
-### 3. Setup Frontend
+### 2. Frontend Setup (Next.js)
 ```bash
-# In new terminal
-npm create vite@latest pr-to-po-dashboard -- --template react
+# Open a new terminal and navigate to the frontend folder
 cd pr-to-po-dashboard
+
+# Install dependencies
 npm install
 
-# Copy provided files
-cp ../App.jsx src/
-cp ../App.css src/
-
+# Run the development server
 npm run dev
 ```
-✅ Dashboard ready at: http://localhost:5173
-
-### 4. Test It!
-1. Open http://localhost:5173
-2. Upload the sample CSV (provided below)
-3. See Gemini AI analyze bottlenecks
-4. Try predicting a new PR
-5. Chat with the AI
+✅ The dashboard will be running at: `http://localhost:3000`
 
 ---
 
-## 📊 Sample CSV Data
+## 🌐 Deployment Guide
 
-Copy this into a file `sample_prs.csv`:
+### Deploying the Frontend (Vercel)
+1. Push your code to GitHub.
+2. Go to [Vercel](https://vercel.com) and create a new project.
+3. Import your GitHub repository.
+4. **Important:** Set the **Root Directory** to `pr-to-po-dashboard`.
+5. Ensure the **Framework Preset** is set to `Next.js`.
+6. Deploy!
 
-```csv
-pr_number,amount,category,approver,submitted_date,approved_date,status
-PR-2025-001,25000,direct,John Smith,2025-01-01 09:00,2025-01-02 14:30,approved
-PR-2025-002,50000,capex,Sarah Jones,2025-01-01 10:00,2025-01-01 12:00,approved
-PR-2025-003,8000,indirect,Mike Johnson,2025-01-01 11:00,2025-01-03 16:00,approved
-PR-2025-004,120000,capex,Sarah Jones,2025-01-02 08:00,2025-01-04 18:00,approved
-PR-2025-005,5000,mro,John Smith,2025-01-02 09:00,2025-01-02 10:00,approved
-PR-2025-006,35000,direct,Lisa Chen,2025-01-02 14:00,2025-01-02 16:00,approved
-PR-2025-007,15000,indirect,Mike Johnson,2025-01-02 15:00,2025-01-05 11:00,approved
-PR-2025-008,72000,capex,Sarah Jones,2025-01-03 08:30,2025-01-05 14:00,approved
-PR-2025-009,12000,direct,John Smith,2025-01-03 10:00,2025-01-03 11:00,approved
-PR-2025-010,18000,mro,Lisa Chen,2025-01-03 13:00,2025-01-04 09:00,approved
-```
-
----
-
-## 🎯 How It Works
-
-### **Tab 1: Upload & Analyze**
-1. Upload CSV with PR approval data
-2. Backend extracts metrics:
-   - Average cycle time
-   - SLA breach rate
-   - Slowest approver
-3. Gemini API analyzes and returns:
-   - Top bottlenecks
-   - Root causes
-   - Recommendations
-
-### **Tab 2: Insights**
-- Displays metrics in card format
-- Shows Gemini's full analysis
-- Identifies which approver/category needs improvement
-
-### **Tab 3: Predict**
-1. Enter PR details (amount, category, approver, vendor type, etc.)
-2. XGBoost predicts: "Will this breach SLA?" (0-100% risk)
-3. Gemini explains: "Why is this at risk? What to do?"
-4. Shows recommended action:
-   - ✅ Auto-approve (low risk, <$5K)
-   - ⚠️ Reassign to backup approver (medium risk)
-   - 🚨 Escalate to manager (high risk)
-
-### **Tab 4: Chat**
-- Free-form questions about delays
-- Gemini answers contextually
-- Examples:
-  - "Why is John Smith slow?"
-  - "How to reduce cycle time by 50%?"
-  - "Which vendor causes the most rework?"
+### Deploying the Backend (Render or Railway)
+1. Go to [Render](https://render.com) or [Railway](https://railway.app).
+2. Create a new **Web Service** and connect your GitHub repo.
+3. Leave the Root Directory empty (root of the repo).
+4. Build Command: `pip install -r requirements.txt`
+5. Start Command: `uvicorn backend:app --host 0.0.0.0 --port $PORT`
+6. Add `GEMINI_API_KEY` to your Environment Variables.
+7. Deploy!
+*(Note: Be sure to update the API URLs in your frontend code to point to your new live backend URL before deploying the frontend).*
 
 ---
 
-## 📁 Files Provided
+## 🎯 Business Impact & KPIs
 
-| File | Purpose |
-|------|---------|
-| `backend.py` | FastAPI server + Gemini integration |
-| `App.jsx` | React dashboard component |
-| `App.css` | Beautiful styling |
-| `requirements.txt` | Python dependencies |
-| `SETUP.md` | Detailed setup guide |
-| `xgboost_delay_model.pkl` | Pre-trained ML model |
-| `create_xgboost_model.py` | Script to regenerate model |
+This system is designed to deliver immediate, measurable ROI for procurement teams:
 
----
-
-## 🔑 Key Features
-
-### **Gemini AI Integration**
-- ✅ Free tier (60 requests/minute)
-- ✅ No credit card required
-- ✅ Natural language analysis
-- ✅ Contextual explanations
-- ✅ Multi-turn conversations
-
-### **XGBoost ML**
-- ✅ Pre-trained model (no training needed)
-- ✅ Predicts delay probability
-- ✅ Fast inference (<100ms)
-- ✅ 95%+ accuracy on test data
-- ✅ Uses 6 key features
-
-### **React Dashboard**
-- ✅ Responsive design (mobile-friendly)
-- ✅ Real-time updates
-- ✅ Interactive charts & metrics
-- ✅ Beautiful gradient UI
-- ✅ Error handling & loading states
-
----
-
-## 🎓 Prompt Engineering Examples
-
-### Bottleneck Analysis Prompt
-```
-You are a procurement expert. Analyze this PR approval data:
-- Total PRs: 100
-- Average cycle time: 55 hours
-- SLA breach rate: 22%
-- Slowest approver: John Smith (3 days avg)
-
-Identify:
-1. Top 3 bottlenecks
-2. Root causes
-3. Recommendations
-
-Format as JSON.
-```
-
-### Prediction Explanation Prompt
-```
-A PR for $50K by a new vendor submitted on Friday 
-has 72% chance of exceeding 48-hour SLA.
-
-Explain in 2-3 sentences:
-1. Why is it at risk?
-2. Main risk factor?
-3. Recommended action?
-```
-
----
-
-## 💡 Why This Works for Hackathon
-
-✅ **No ML training** — Model is pre-trained, ready to use
-✅ **Fast build** — 2-3 hours total (setup + customization)
-✅ **Impressive demo** — Combines AI explanation + ML prediction
-✅ **Real insights** — Process mining + GenAI analysis
-✅ **Live working code** — Everything tested and working
-✅ **Free APIs** — Gemini free tier + no other costs
-✅ **Fully interactive** — Responsive React dashboard
-✅ **Hackathon KPIs**:
-   - Business value: Cycle time ↓30%, SLA ↑85%, rework ↓60%
-   - AI opportunity: 6+ input features, multi-dimensional analysis
-   - Output: Risk scores, explanations, recommendations
-   - Impact: $200K+ annual savings
-
----
-
-## 🚀 5-Minute Demo Script
-
-```
-1. Open dashboard (http://localhost:5173)
-
-2. "Here's 100 PRs from a company with approval bottlenecks"
-   → Upload sample CSV
-
-3. Click "Analyze Data"
-   → Show metrics: 55 hour avg cycle, 22% SLA breach, 
-   slowest approver is John Smith
-
-4. Go to Insights tab
-   → "Gemini AI identified 3 bottlenecks:
-      1. John Smith overloaded (50+ pending)
-      2. New vendors require 5-step approval
-      3. Friday submissions delayed until Monday"
-
-5. Go to Predict tab
-   → Fill in a high-risk PR:
-      Amount: $50K, Category: Capex, 
-      Approver: John Smith, Day: Friday, Vendor: New
-   → Click Predict
-   → "85% chance of delay. Reason: Large capex + new vendor 
-      + overloaded approver + end of week. Action: Escalate."
-
-6. Go to Chat tab
-   → Ask: "How to reduce by 50%?"
-   → Gemini: "Auto-approve <$5K (saves 10h), 
-      route new vendors to backup (saves 8h), 
-      batch Friday submissions (saves 6h). Total: 24h saved."
-
-7. Close
-   → "This system saves $200K+ annually in cycle time reduction."
-```
-
-**Total time: 5 minutes**
-
----
-
-## 🔧 Customization
-
-### Change SLA Target
-In `backend.py` line 104:
-```python
-sla_target = 48  # Change to your target hours
-```
-
-### Use Different Gemini Model
-In `backend.py` line 23:
-```python
-model = genai.GenerativeModel('gemini-1.5-flash')  
-# Options: 'gemini-pro', 'gemini-1.5-flash'
-```
-
-### Add More Features
-Edit `backend.py` function `process_csv_for_analysis()` to extract additional columns from CSV.
-
-### Deploy to Cloud
-See SETUP.md for Railway.app (backend) + Vercel (frontend) deployment.
-
----
-
-## 📖 Technology Stack
-
-| Layer | Technology | Why |
-|-------|-----------|-----|
-| Frontend | React.js + Vite | Fast, modern, responsive |
-| Backend | FastAPI + Python | Simple, fast, great for APIs |
-| AI | Google Gemini API | Free tier, no setup, powerful |
-| ML | XGBoost | Lightweight, fast, interpretable |
-| Styling | CSS3 + Gradients | Beautiful, responsive design |
-| Deployment | Vercel + Railway | Free, fast, easy |
-
----
-
-## ❓ FAQ
-
-**Q: Do I need a credit card for Gemini?**
-A: No! The free tier works without any card.
-
-**Q: What if I hit the 60 req/minute limit?**
-A: For hackathon demo, you won't. Each upload/predict = 1-2 calls.
-
-**Q: Can I use this with real SAP data?**
-A: Yes! Just export PR approval logs as CSV. Backend handles SAP iLogs format.
-
-**Q: What if XGBoost model isn't loaded?**
-A: Backend falls back to simple heuristic model. Still works fine for demo.
-
-**Q: Can I deploy this live?**
-A: Yes! Follow deployment guide in SETUP.md (10 minutes).
-
----
-
-## 🎯 Business Impact KPIs
-
-| Metric | Baseline | Target | Achieved |
+| Metric | Baseline | Target | Impact |
 |--------|----------|--------|----------|
-| Avg cycle time | 55 hrs | 38 hrs (↓30%) | ✅ |
-| SLA breach rate | 22% | <5% (↓80%) | ✅ |
-| Rework loop rate | 18% | <7% (↓60%) | ✅ |
-| Approver time saved | – | 45% | ✅ |
-| Annual cost savings | – | $200K+ | ✅ |
+| **Avg Cycle Time** | 55 hrs | 38 hrs | **↓ 30% reduction** |
+| **SLA Breach Rate** | 22% | < 5% | **↓ 80% improvement** |
+| **Rework Loop Rate**| 18% | < 7% | **↓ 60% reduction** |
+| **Annual Savings** | – | $200K+ | **High ROI** |
 
 ---
 
-## 📞 Support
+## 📝 License
 
-- **Stuck on setup?** Check terminal output + browser console (F12)
-- **Gemini not working?** Verify API key in `.env` file
-- **Backend not starting?** Make sure port 8000 is free
-- **Frontend not connecting?** Check API_BASE in App.jsx matches backend URL
-
----
-
-## 📝 License & Credits
-
-Built for Orange Prompathon'26 — PR-to-PO Approval Delay Analysis
-
-Uses:
-- Google Gemini API (free tier)
-- XGBoost (pre-trained model)
-- React.js
-- FastAPI
-
----
-
-## 🚀 Next Steps
-
-1. **Get Gemini API key** → https://aistudio.google.com/app/apikeys
-2. **Follow SETUP.md** → Install & run in 5 minutes
-3. **Test with sample CSV** → See bottleneck analysis
-4. **Demo to judges** → 5-minute script included
-5. **Deploy** → Go live on Vercel + Railway
-
----
-
-**Let's go! 🎯**
+This project is open-source and available under the MIT License.
