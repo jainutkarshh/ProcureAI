@@ -2,15 +2,14 @@
 
 **Interactive Next.js Dashboard + FastAPI + Gemini AI + XGBoost ML**
 
-![Hero Screenshot](slot_for_hero_screenshot.png)
-*(Replace `slot_for_hero_screenshot.png` with a high-quality screenshot of the main dashboard)*
+![Hero Screenshot](https://github.com/user-attachments/assets/d4c01fbe-448c-4ce3-ad6b-a4838027d998)
 
 ---
 
 ## 🔗 Live Deployment
 
-🌐 **Live Demo Frontend:** [Insert Vercel Link Here] *(e.g., https://pr-to-po-dashboard.vercel.app)*
-⚙️ **Live API Backend:** [Insert Render/Railway Link Here] *(e.g., https://procure-api.onrender.com)*
+🌐 **Live Demo Frontend:** [[Insert Vercel Link Here](https://procure-ai-8w5s.vercel.app/)] 
+
 
 ---
 
