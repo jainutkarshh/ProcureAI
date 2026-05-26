@@ -17,7 +17,7 @@ export function VendorHistory() {
   const fetchVendors = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:8000/vendors");
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/vendors`);
       if (!response.ok) throw new Error("Failed to load vendors");
       const data = await response.json();
       setVendors(data.vendors || []);
@@ -30,7 +30,7 @@ export function VendorHistory() {
 
   const handleRetrain = async () => {
     try {
-      const response = await fetch("http://localhost:8000/retrain", { method: "POST" });
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/retrain`, { method: "POST" });
       if (!response.ok) throw new Error("Retrain failed");
       alert("Model retrained successfully!");
     } catch (err: any) {
@@ -42,7 +42,7 @@ export function VendorHistory() {
     setDetailsLoading(true);
     setSelectedVendor(vendorName);
     try {
-      const response = await fetch(`http://localhost:8000/vendors/${encodeURIComponent(vendorName)}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/vendors/${encodeURIComponent(vendorName)}`);
       if (!response.ok) throw new Error("Failed to load vendor details");
       const data = await response.json();
       setVendorDetails(data);
